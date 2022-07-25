@@ -7,6 +7,7 @@ SMS service provider for Laravel and Lumen. Uses [SMS Client](https://github.com
 * `clockwork`
 * `textlocal`
 * `twilio`
+* `O2SK`
 * `aws` (requires installation of `aws/aws-sdk-php`)
 * `mail` (somewhat untested and may be too generic to be much use)
 
@@ -40,6 +41,7 @@ NEXMO_API_SECRET=bar
 CLOCKWORK_API_KEY=baz
 TEXTLOCAL_API_KEY=baz
 REQUESTBIN_PATH=foo
+O2_SK_API_KEY=foo
 AWS_SNS_API_KEY=foo
 AWS_SNS_API_SECRET=bar
 AWS_SNS_API_REGION=baz

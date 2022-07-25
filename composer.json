@@ -4,13 +4,15 @@
     "type": "library",
     "keywords": ["sms","laravel","lumen"],
     "require": {
-        "dejwcake/sms-client": "^1.0.16"
+        "php": "^8.1",
+        "dejwcake/sms-client": "dev-v2.0-rc"
     },
     "require-dev": {
         "orchestra/testbench": "^7.6",
         "phpunit/phpunit": "^9.5.21",
         "mockery/mockery": "^1.5.0",
         "squizlabs/php_codesniffer": "^3.7",
+        "slevomat/coding-standard": "^8.3.0",
         "aws/aws-sdk-php": "3.*",
         "psy/psysh": "^0.11.7"
     },
@@ -45,6 +47,11 @@
             "aliases": {
                 "SMS": "Matthewbdaly\\LaravelSMS\\Facade"
             }
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     }
 }

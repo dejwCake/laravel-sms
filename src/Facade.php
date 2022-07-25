@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Matthewbdaly\LaravelSMS;
 
 use Illuminate\Support\Facades\Facade as BaseFacade;
@@ -7,14 +9,12 @@ use Illuminate\Support\Facades\Facade as BaseFacade;
 /**
  * Facade for the SMS provider
  */
-class Facade extends BaseFacade
+final class Facade extends BaseFacade
 {
     /**
      * Get the registered name of the component.
-     *
-     * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'sms';
     }

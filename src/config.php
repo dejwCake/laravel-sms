@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -20,55 +22,60 @@ return [
     | Drivers
     |--------------------------------------------------------------------------
     |
-    | Here you can define the settings for each driver. 
+    | Here you can define the settings for each driver.
     |
     */
 
     'drivers' => [
 
-        'clockwork' => [
-            'driver' => 'clockwork',
-            'api_key' => env('CLOCKWORK_API_KEY', null),
+        'aws' => [
+            'driver' => 'aws',
+            'apiKey' => env('AWS_SNS_API_KEY', null),
+            'apiSecret' => env('AWS_SNS_API_SECRET', null),
+            'apiRegion' => env('AWS_SNS_API_REGION', null),
         ],
 
-        'textlocal' => [
-            'driver' => 'textlocal',
-            'api_key' => env('TEXTLOCAL_API_KEY', null),
+        'clockwork' => [
+            'driver' => 'clockwork',
+            'apiKey' => env('CLOCKWORK_API_KEY', null),
         ],
 
         'log' => [
             'driver' => 'log',
         ],
 
-        'requestbin' => [
-            'path' => env('REQUESTBIN_PATH', null),
-        ],
-
-        'nexmo' => [
-            'driver' => 'nexmo',
-            'api_key' => env('NEXMO_API_KEY', null),
-            'api_secret' => env('NEXMO_API_secret', null),
-        ],
-
-        'twilio' => [
-            'driver' => 'twilio',
-            'account_id' => env('TWILIO_ACCOUNT_ID', null),
-            'api_token' => env('TWILIO_API_TOKEN', null),
-        ],
-
-        'aws' => [
-            'driver' => 'aws',
-            'api_key' => env('AWS_SNS_API_KEY', null),
-            'api_secret' => env('AWS_SNS_API_SECRET', null),
-            'api_region' => env('AWS_SNS_API_REGION', null),
-        ],
-
         'mail' => [
             'domain' => env('MAIL_SMS_DOMAIN', null),
         ],
 
+        'nexmo' => [
+            'driver' => 'nexmo',
+            'apiKey' => env('NEXMO_API_KEY', null),
+            'apiSecret' => env('NEXMO_API_SECRET', null),
+        ],
+
         'null' => [
             'driver' => 'null',
+        ],
+
+        'o2sk' => [
+            'driver' => 'o2sk',
+            'apiKey' => env('O2_SK_API_KEY', null),
+        ],
+
+        'requestbin' => [
+            'path' => env('REQUESTBIN_PATH', null),
+        ],
+
+        'textlocal' => [
+            'driver' => 'textlocal',
+            'apiKey' => env('TEXTLOCAL_API_KEY', null),
+        ],
+
+        'twilio' => [
+            'driver' => 'twilio',
+            'accountId' => env('TWILIO_ACCOUNT_ID', null),
+            'apiToken' => env('TWILIO_API_TOKEN', null),
         ],
     ],
 ];

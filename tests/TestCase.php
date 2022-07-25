@@ -1,20 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
+use Illuminate\Foundation\Application;
+use Matthewbdaly\LaravelSMS\Facade;
+use Matthewbdaly\LaravelSMS\LaravelSMSProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
-class TestCase extends BaseTestCase
+abstract class TestCase extends BaseTestCase
 {
-	protected function getPackageProviders($app)
-	{
-		return ['Matthewbdaly\LaravelSMS\LaravelSMSProvider'];
-	}
+    /**
+     * @param  Application $app
+     * @return array<int, class-string>
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     */
+    protected function getPackageProviders($app): array
+    {
+        return [LaravelSMSProvider::class];
+    }
 
-	protected function getPackageAliases($app)
-	{
-		return [
-			'SMS' => 'Matthewbdaly\LaravelSMS\Facade'
-		];
-	}
+    /**
+     * @param  Application $app
+     * @return array<int, class-string>
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     */
+    protected function getPackageAliases($app): array
+    {
+        return [
+            'SMS' => Facade::class,
+        ];
+    }
 }

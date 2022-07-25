@@ -1,124 +1,111 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Matthewbdaly\LaravelSMS;
 
-use Illuminate\Support\ServiceProvider;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
-use Matthewbdaly\SMS\Drivers\NullDriver;
-use Matthewbdaly\SMS\Drivers\Log as LogDriver;
-use Matthewbdaly\SMS\Drivers\RequestBin;
-use Matthewbdaly\SMS\Drivers\Clockwork;
-use Matthewbdaly\SMS\Drivers\Nexmo;
-use Matthewbdaly\SMS\Drivers\TextLocal;
-use Matthewbdaly\SMS\Drivers\Aws;
-use Matthewbdaly\SMS\Drivers\Twilio;
-use Matthewbdaly\SMS\Drivers\Mail as MailDriver;
+use Illuminate\Support\ServiceProvider;
 use Matthewbdaly\SMS\Client;
+use Matthewbdaly\SMS\Contracts\Client as SmsClient;
+use Matthewbdaly\SMS\Drivers\Aws;
+use Matthewbdaly\SMS\Drivers\Clockwork;
+use Matthewbdaly\SMS\Drivers\Log as LogDriver;
+use Matthewbdaly\SMS\Drivers\Mail as MailDriver;
+use Matthewbdaly\SMS\Drivers\Nexmo;
+use Matthewbdaly\SMS\Drivers\NullDriver;
+use Matthewbdaly\SMS\Drivers\O2SK;
+use Matthewbdaly\SMS\Drivers\RequestBin;
+use Matthewbdaly\SMS\Drivers\TextLocal;
+use Matthewbdaly\SMS\Drivers\Twilio;
 
 /**
  * Service provider for the SMS service
  */
-class LaravelSMSProvider extends ServiceProvider
+final class LaravelSMSProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
-            __DIR__.'/config.php' => config_path('sms.php'),
+            __DIR__ . '/config.php' => config_path('sms.php'),
         ]);
     }
 
     /**
      * Register the application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->singleton('sms', function ($app) {
+        $this->app->singleton('sms', static function ($app) {
             $config = $app['config'];
-            switch ($config['sms.default']) {
-                case 'null':
-                    $driver = new NullDriver(
-                        new GuzzleClient,
-                        new GuzzleResponse
-                    );
-                    break;
-                case 'nexmo':
-                    $driver = new Nexmo(
-                        new GuzzleClient,
-                        new GuzzleResponse,
-                        [
-                        'api_key' => $config['sms.drivers.nexmo.api_key'],
-                        'api_secret' => $config['sms.drivers.nexmo.api_secret'],
-                        ]
-                    );
-                    break;
-                case 'clockwork':
-                    $driver = new Clockwork(
-                        new GuzzleClient,
-                        new GuzzleResponse,
-                        [
-                        'api_key' => $config['sms.drivers.clockwork.api_key'],
-                        ]
-                    );
-                    break;
-                case 'textlocal':
-                    $driver = new TextLocal(
-                        new GuzzleClient,
-                        new GuzzleResponse,
-                        [
-                        'api_key' => $config['sms.drivers.textlocal.api_key'],
-                        ]
-                    );
-                    break;
-                case 'twilio':
-                    $driver = new Twilio(
-                        new GuzzleClient,
-                        new GuzzleResponse,
-                        [
-                        'account_id' => $config['sms.drivers.twilio.account_id'],
-                        'api_token' => $config['sms.drivers.twilio.api_token'],
-                        ]
-                    );
-                    break;
-                case 'requestbin':
-                    $driver = new RequestBin(
-                        new GuzzleClient,
-                        new GuzzleResponse,
-                        [
+            $driver = match ($config['sms.default']) {
+                'aws' => new Aws([
+                    'apiKey' => $config['sms.drivers.aws.apiKey'],
+                    'apiSecret' => $config['sms.drivers.aws.apiSecret'],
+                    'apiRegion' => $config['sms.drivers.aws.apiRegion'],
+                ]),
+                'clockwork' => new Clockwork(
+                    new GuzzleClient(),
+                    new GuzzleResponse(),
+                    [
+                        'apiKey' => $config['sms.drivers.clockwork.apiKey'],
+                    ],
+                ),
+                'mail' => new MailDriver(new MailAdapter(), [
+                    'domain' => $config['sms.drivers.mail.domain'],
+                ]),
+                'nexmo' => new Nexmo(
+                    new GuzzleClient(),
+                    new GuzzleResponse(),
+                    [
+                        'apiKey' => $config['sms.drivers.nexmo.apiKey'],
+                        'apiSecret' => $config['sms.drivers.nexmo.apiSecret'],
+                    ],
+                ),
+                'null' => new NullDriver(
+                    new GuzzleClient(),
+                    new GuzzleResponse(),
+                ),
+                'o2sk' => new O2SK(
+                    new GuzzleClient(),
+                    [
+                        'apiKey' => $config['sms.drivers.o2sk.apiKey'],
+                    ],
+                ),
+                'requestbin' => new RequestBin(
+                    new GuzzleClient(),
+                    new GuzzleResponse(),
+                    [
                         'path' => $config['sms.drivers.requestbin.path'],
-                        ]
-                    );
-                    break;
-                case 'aws':
-                    $driver = new Aws([
-                        'api_key' => $config['sms.drivers.aws.api_key'],
-                        'api_secret' => $config['sms.drivers.aws.api_secret'],
-                        'api_region' => $config['sms.drivers.aws.api_region'],
-                    ]);
-                    break;
-                case 'mail':
-                    $driver = new MailDriver(new MailAdapter, [
-                        'domain' => $config['sms.drivers.mail.domain'],
-                    ]);
-                    break;
-                default:
-                    $driver = new LogDriver(
-                        $app['log']
-                    );
-                    break;
-            }
+                    ],
+                ),
+                'textlocal' => new TextLocal(
+                    new GuzzleClient(),
+                    new GuzzleResponse(),
+                    [
+                        'apiKey' => $config['sms.drivers.textlocal.apiKey'],
+                    ],
+                ),
+                'twilio' => new Twilio(
+                    new GuzzleClient(),
+                    new GuzzleResponse(),
+                    [
+                        'accountId' => $config['sms.drivers.twilio.accountId'],
+                        'apiToken' => $config['sms.drivers.twilio.apiToken'],
+                    ],
+                ),
+                default => new LogDriver(
+                    $app['log'],
+                ),
+            };
+
             return new Client($driver);
         });
 
-        $this->app->bind('Matthewbdaly\SMS\Contracts\Client', function ($app) {
-            return $app['sms'];
-        });
+        $this->app->bind(SmsClient::class, static fn ($app) => $app['sms']);
     }
 }
