@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "dejwcake/sms-client": "dev-v2.0-rc"
+        "dejwcake/sms-client": "^2.0"
     },
     "require-dev": {
         "aws/aws-sdk-php": "3.*",
@@ -55,7 +55,7 @@
     "extra": {
         "laravel": {
             "aliases": {
-                "SMS": "Matthewbdaly\\LaravelSMS\\Facades\\Sms"
+                "Sms": "Matthewbdaly\\LaravelSMS\\Facades\\Sms"
             },
             "providers": [
                 "Matthewbdaly\\LaravelSMS\\LaravelSMSProvider"

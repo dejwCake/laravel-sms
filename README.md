@@ -23,7 +23,7 @@ Installation for Laravel
 This package is only intended for Laravel 5.5 and up. Install it with the following command:
 
 ```bash
-$ composer require matthewbdaly/laravel-sms
+$ composer require dejwcake/laravel-sms
 ```
 
 Then publish the config file:
@@ -61,13 +61,13 @@ Usage
 Once the package is installed and configured, you can use the facade to send SMS messages:
 
 ```php
-use SMS;
+use Sms;
 
 $msg = [
     'to'      => '+44 01234 567890',
     'content' => 'Just testing',
 ];
-SMS::send($msg);
+Sms::send($msg);
 ```
 
 Or fetch it from the app:
