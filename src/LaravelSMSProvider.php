@@ -7,6 +7,7 @@ namespace Matthewbdaly\LaravelSMS;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Illuminate\Support\ServiceProvider;
+use Matthewbdaly\LaravelSMS\Mailers\MailAdapter;
 use Matthewbdaly\SMS\Client;
 use Matthewbdaly\SMS\Contracts\Client as SmsClient;
 use Matthewbdaly\SMS\Drivers\Aws;
@@ -31,7 +32,7 @@ final class LaravelSMSProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/config.php' => config_path('sms.php'),
+            __DIR__ . '/../config/sms.php' => config_path('sms.php'),
         ]);
     }
 

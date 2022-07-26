@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Matthewbdaly\LaravelSMS;
+namespace Matthewbdaly\LaravelSMS\Facades;
 
-use Illuminate\Support\Facades\Facade as BaseFacade;
+use Illuminate\Support\Facades\Facade;
 
 /**
  * Facade for the SMS provider
  */
-final class Facade extends BaseFacade
+final class Sms extends Facade
 {
     /**
      * Get the registered name of the component.

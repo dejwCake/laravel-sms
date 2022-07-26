@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Matthewbdaly\LaravelSMS\Facade;
+use Matthewbdaly\LaravelSMS\Facades\Facade;
 use Matthewbdaly\SMS\Client;
 use Matthewbdaly\SMS\Contracts\Client as ClientContract;
 use Mockery;
@@ -117,7 +117,10 @@ final class ServiceProviderTest extends TestCase
             'content' => 'Just testing',
         ];
         $mock = Mockery::mock(ClientContract::class);
-        $mock->shouldReceive('send')->with($msg)->once()->andReturn(true);
+        $mock->shouldReceive('send')
+            ->with($msg)
+            ->once()
+            ->andReturn(true);
         $this->app->instance('sms', $mock);
         Facade::send($msg);
     }

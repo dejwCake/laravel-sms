@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Matthewbdaly\LaravelSMS;
+namespace Matthewbdaly\LaravelSMS\Mailers;
 
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Matthewbdaly\SMS\Contracts\Mailer;
