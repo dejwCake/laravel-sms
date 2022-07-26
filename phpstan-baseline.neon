@@ -6,6 +6,6 @@ parameters:
 			path: tests/ServiceProviderTest.php
 
 		-
-			message: "#^Call to an undefined static method Matthewbdaly\\\\LaravelSMS\\\\Facade\\:\\:send\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Matthewbdaly\\\\LaravelSMS\\\\Facades\\\\Sms\\:\\:send\\(\\)\\.$#"
 			count: 1
 			path: tests/ServiceProviderTest.php

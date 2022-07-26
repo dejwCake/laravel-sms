@@ -9,5 +9,6 @@ parameters:
     tmpDir: .phpstan.cache
 
     paths:
+        - ./config
         - ./src
         - ./tests

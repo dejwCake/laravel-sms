@@ -12,6 +12,7 @@
 
 	<config name="php_version" value="80100" />
 
+	<file>config</file>
 	<file>src</file>
 	<file>tests</file>
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use Illuminate\Foundation\Application;
-use Matthewbdaly\LaravelSMS\Facades\Facade;
+use Matthewbdaly\LaravelSMS\Facades\Sms;
 use Matthewbdaly\LaravelSMS\LaravelSMSProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
@@ -31,7 +31,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageAliases($app): array
     {
         return [
-            'SMS' => Facade::class,
+            'Sms' => Sms::class,
         ];
     }
 }
