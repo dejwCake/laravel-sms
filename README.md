@@ -1,7 +1,6 @@
 # laravel-sms
-[![Build Status](https://travis-ci.org/matthewbdaly/laravel-sms.svg?branch=master)](https://travis-ci.org/matthewbdaly/laravel-sms)
 
-SMS service provider for Laravel and Lumen. Uses [SMS Client](https://github.com/matthewbdaly/sms-client) to enable sending SMS messages using the following drivers:
+SMS service provider for Laravel and Lumen. Uses [SMS Client](https://github.com/dejwCake/sms-client) to enable sending SMS messages using the following drivers:
 
 * `nexmo`
 * `clockwork`
@@ -16,6 +15,17 @@ Also has the following drivers for testing purposes:
 * `log`
 * `null`
 * `requestbin`
+
+Fork note
+---------
+
+This project is a fork of `Matthewbdaly\LaravelSMS`. It is maintained and improved by David Běhal (`DejwCake`).
+
+Namespace change
+----------------
+
+The library namespace has been updated from `Matthewbdaly\LaravelSMS` to `DejwCake\LaravelSms`. Backward compatibility with the old namespace has been removed; please update your imports accordingly.
+
 
 Installation for Laravel
 ------------------------
@@ -32,7 +42,7 @@ Then publish the config file:
 $ php artisan vendor:publish
 ```
 
-You will need to select the service provider `Matthewbdaly\LaravelSMS\LaravelSMSProvider`. Then set your driver and any settings required in the `.env` file for your project:
+You will need to select the service provider `Dejwcake\LaravelSms\LaravelSmsProvider`. Then set your driver and any settings required in the `.env` file for your project:
 
 ```
 SMS_DRIVER=nexmo
@@ -61,7 +71,7 @@ Usage
 Once the package is installed and configured, you can use the facade to send SMS messages:
 
 ```php
-use Sms;
+use DejwCake\SmsClient\Facades\Sms;
 
 $msg = [
     'to'      => '+44 01234 567890',
@@ -77,19 +87,67 @@ $msg = [
     'to'      => '+44 01234 567890',
     'content' => 'Just testing',
 ];
-$sms = app()['sms']
+$sms = app()['sms'];
 $sms->send($msg);
 ```
 
-Or resolve the interface `Matthewbdaly\SMS\Contracts\Client`:
+Or resolve the interface `DejwCake\SmsClient\Contracts\Client`:
 
 ```php
 $msg = [
     'to'      => '+44 01234 567890',
     'content' => 'Just testing',
 ];
-$sms = app()->make('Matthewbdaly\SMS\Contracts\Client');
+$sms = app()->make('DejwCake\SmsClient\Contracts\Client');
 $sms->send($msg);
 ```
 
 Here we use the `app()` helper, but you'll normally want to inject it into a constructor or method of another class.
+
+## How to develop this project
+
+### Composer
+
+Update dependencies:
+```shell
+docker compose run --rm cli composer update
+```
+
+Composer normalization:
+```shell
+docker compose run --rm php-qa composer normalize
+```
+
+### Run tests
+
+Run tests with pcov:
+```shell
+docker compose run --rm test ./vendor/bin/phpunit -d pcov.enabled=1
+```
+
+### Run code analysis tools (php-qa)
+
+PHP compatibility:
+```shell
+docker compose run --rm php-qa phpcs --standard=.phpcs.compatibility.xml --cache=.phpcs.cache
+```
+
+Code style:
+```shell
+docker compose run --rm php-qa phpcs -s --colors --extensions=php
+```
+
+Fix style issues:
+```shell
+docker compose run --rm php-qa phpcbf -s --colors --extensions=php
+```
+
+Static analysis (phpstan):
+```shell
+docker compose run --rm php-qa phpstan analyse --configuration=phpstan.neon
+```
+
+Mess detector (phpmd):
+```shell
+docker compose run --rm php-qa phpmd ./src,./tests ansi phpmd.xml --suffixes php --baseline-file phpmd.baseline.xml
+```

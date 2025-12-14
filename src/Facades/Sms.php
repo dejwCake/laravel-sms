@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Matthewbdaly\LaravelSMS\Facades;
+namespace DejwCake\LaravelSms\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

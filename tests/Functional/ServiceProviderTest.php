@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace DejwCake\LaravelSms\Tests\Functional;
 
-use Matthewbdaly\LaravelSMS\Facades\Sms;
-use Matthewbdaly\SMS\Client;
-use Matthewbdaly\SMS\Contracts\Client as ClientContract;
+use DejwCake\LaravelSms\Facades\Sms;
+use DejwCake\LaravelSms\Tests\TestCase;
+use DejwCake\SmsClient\Client;
+use DejwCake\SmsClient\Contracts\Client as ClientContract;
 use Mockery;
 
 final class ServiceProviderTest extends TestCase
