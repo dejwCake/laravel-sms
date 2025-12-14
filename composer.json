@@ -10,55 +10,43 @@
     ],
     "authors": [
         {
-            "name": "Matthew Daly",
-            "email": "matthewbdaly@gmail.com",
-            "role": "Original Developer"
-        },
-        {
             "name": "David Běhal",
             "email": "behal.david@gmail.com",
             "role": "Fork Developer"
+        },
+        {
+            "name": "Matthew Daly",
+            "email": "matthewbdaly@gmail.com",
+            "role": "Original Developer"
         }
     ],
     "require": {
-        "php": "^8.1",
-        "dejwcake/sms-client": "^2.0"
+        "php": "^8.4",
+        "dejwcake/sms-client": "^3.0",
+        "guzzlehttp/guzzle": "^7.10"
     },
     "require-dev": {
-        "aws/aws-sdk-php": "3.*",
-        "ergebnis/composer-normalize": "^2.28",
-        "mockery/mockery": "^1.5.0",
-        "orchestra/testbench": "^7.6",
-        "phpcompatibility/php-compatibility": "^9.3",
-        "phpstan/phpstan": "^1.8.2",
-        "phpunit/phpunit": "^9.5.21",
-        "psy/psysh": "^0.11.7",
-        "slevomat/coding-standard": "^8.3.0",
-        "squizlabs/php_codesniffer": "^3.7"
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^10.8",
+        "phpunit/phpunit": "^12.5"
     },
     "autoload": {
         "psr-4": {
-            "Matthewbdaly\\LaravelSMS\\": "src/"
+            "DejwCake\\LaravelSms\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "config": {
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "ergebnis/composer-normalize": true
+            "DejwCake\\LaravelSms\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "aliases": {
-                "Sms": "Matthewbdaly\\LaravelSMS\\Facades\\Sms"
+                "Sms": "DejwCake\\LaravelSms\\Facades\\Sms"
             },
             "providers": [
-                "Matthewbdaly\\LaravelSMS\\LaravelSMSProvider"
+                "LaravelSmsProvider"
             ]
         }
     }

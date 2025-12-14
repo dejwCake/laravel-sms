@@ -2,26 +2,33 @@
 
 declare(strict_types=1);
 
-namespace Matthewbdaly\LaravelSMS\Mailers;
+namespace DejwCake\LaravelSms\Mailers;
 
+use DejwCake\SmsClient\Contracts\Mailer;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
-use Matthewbdaly\SMS\Contracts\Mailer;
+use Illuminate\Mail\Message;
+use Throwable;
 
 /**
  * Wrapper for the Laravel Mail interface to use it to send emails to the SMS gateway
  */
-final class MailAdapter implements Mailer
+final readonly class MailAdapter implements Mailer
 {
-    /**
-     * Send email
-     *
-     * @param string $recipient The recipent's email.
-     * @param string $message   The message.
-     */
+    public function __construct(private MailerContract $mailer)
+    {
+    }
+
     public function send(string $recipient, string $message): bool
     {
-        $mailer = app()->make(MailerContract::class);
+        try {
+            $this->mailer->raw($message, static function (Message $mail) use ($recipient): void {
+                $mail->to($recipient);
+            });
 
-        return $mailer->to($recipient)->raw($message);
+            return true;
+        } catch (Throwable) {
+            // Optionally log the error here
+            return false;
+        }
     }
 }

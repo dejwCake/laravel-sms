@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace DejwCake\LaravelSms\Tests;
 
+use DejwCake\LaravelSms\Facades\Sms;
+use DejwCake\LaravelSms\LaravelSmsProvider;
 use Illuminate\Foundation\Application;
-use Matthewbdaly\LaravelSMS\Facades\Sms;
-use Matthewbdaly\LaravelSMS\LaravelSMSProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -19,7 +19,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getPackageProviders($app): array
     {
-        return [LaravelSMSProvider::class];
+        return [LaravelSmsProvider::class];
     }
 
     /**

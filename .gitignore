@@ -1,8 +1,10 @@
 *.swp
 .DS_Store
-vendor/
-composer.lock
-docker-compose.yml
-.phpunit.result.cache
+.idea
 .phpcs.cache
 .phpstan.cache
+.phpunit.cache
+.run
+composer.lock
+docker-compose.override.yml
+vendor/
